@@ -35,7 +35,7 @@ jobs:
         run: |
           rsync -av --delete \
             --exclude='.git/' \
-            --exclude='.github/workflows/sync-from-source.yml' \
+            --exclude='.github/' \
             source/ destination/
 
       # Commit changes to A2
