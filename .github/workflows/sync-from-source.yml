@@ -50,6 +50,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes detected"
           else
-            git commit -m "Sync latest changes from A1"
+            git commit -m "Sync latest changes from source"
             git push
           fi
