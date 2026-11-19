@@ -1,0 +1,55 @@
+
+name: Sync Project from A1
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout destination repository (A2)
+      - name: Checkout tenant-project Repository
+        uses: actions/checkout@v7
+        with:
+          path: destination
+
+      # Checkout source repository (A1)
+      - name: Checkout source-code Repository
+        uses: actions/checkout@v7
+        with:
+          repository: jimishravat/iam
+          ref: main
+          token: ${{ secrets.CODEBASE_SYNC }}
+          path: source
+
+      # Synchronize A1 into A2
+      - name: Sync Code
+        run: |
+          rsync -av --delete \
+            --exclude='.git/' \
+            --exclude='.github/workflows/sync-from-source.yml' \
+            source/ destination/
+
+      # Commit changes to A2
+      - name: Push Changes
+        working-directory: destination
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes detected"
+          else
+            git commit -m "Sync latest changes from A1"
+            git push
+          fi
