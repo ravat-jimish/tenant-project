@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  basePath: "/projects/tenantboard",
 };
 
 export default nextConfig;
