@@ -22,11 +22,21 @@ if (!configuredURL) {
 
 const configuredURLObject = new URL(configuredURL);
 const baseURL = configuredURLObject.origin;
+const trustedOrigins = [
+  baseURL,
+  ...(
+    process.env.BETTER_AUTH_TRUSTED_ORIGINS
+      ?.split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean) ?? []
+  ),
+];
 
 export const auth = betterAuth({
   appName: "TenantBoard",
   secret,
   baseURL,
+  trustedOrigins,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
     transaction: true,
