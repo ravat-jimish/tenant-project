@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import GoogleSignInButton from "@/components/google-sign-in-button";
+import { appPath } from "@/lib/app-paths";
 export default function SignInPage() {
   const router = useRouter();
 
@@ -27,7 +28,7 @@ export default function SignInPage() {
         email: email.trim().toLowerCase(),
         password,
         rememberMe,
-        callbackURL: "/dashboard",
+        callbackURL: appPath("/dashboard"),
       });
 
       if (error) {

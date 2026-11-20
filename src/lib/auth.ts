@@ -7,17 +7,21 @@ import { logDevelopmentEmail } from "@/lib/dev-email";
 import { SESSION_FRESH_AGE_SECONDS } from "@/lib/auth-config";
 import { APIError } from "better-auth/api";
 import { ac, organizationRoles } from "@/lib/permissions";
+import { APP_BASE_PATH } from "@/lib/app-paths";
 
 const secret = process.env.BETTER_AUTH_SECRET;
-const baseURL = process.env.BETTER_AUTH_URL;
+const configuredURL = process.env.BETTER_AUTH_URL;
 
 if (!secret || secret.length < 32) {
   throw new Error("BETTER_AUTH_SECRET must be at least 32 characters");
 }
 
-if (!baseURL) {
+if (!configuredURL) {
   throw new Error("BETTER_AUTH_URL is required");
 }
+
+const configuredURLObject = new URL(configuredURL);
+const baseURL = configuredURLObject.origin;
 
 export const auth = betterAuth({
   appName: "TenantBoard",
@@ -108,8 +112,7 @@ export const auth = betterAuth({
       invitationExpiresIn: 60 * 60 * 48,
       async sendInvitationEmail(data) {
         const inviteURL = new URL(
-          "/invitations/accept",
-          process.env.BETTER_AUTH_URL!,
+          `${configuredURLObject.origin}${APP_BASE_PATH}/invitations/accept`,
         );
 
         inviteURL.searchParams.set("invitationId", data.id);

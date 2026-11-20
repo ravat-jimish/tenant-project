@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import ReauthenticateButton from "@/components/reauthenticate-button";
+import { appPath } from "@/lib/app-paths";
 type AccountsResponse = Awaited<ReturnType<typeof authClient.listAccounts>>;
 
 type LinkedAccount = NonNullable<AccountsResponse["data"]>[number];
@@ -62,7 +63,7 @@ export default function AccountConnections() {
     try {
       const { error } = await authClient.linkSocial({
         provider: "google",
-        callbackURL: "/settings/accounts",
+        callbackURL: appPath("/settings/accounts"),
       });
 
       if (error) {

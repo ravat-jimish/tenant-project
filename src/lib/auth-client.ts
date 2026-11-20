@@ -7,12 +7,14 @@ import {
 
 import type { auth } from "@/lib/auth";
 import { ac, organizationRoles } from "@/lib/permissions";
+import { appPath } from "@/lib/app-paths";
 
 export const authClient = createAuthClient({
+  basePath: appPath("/api/auth"),
   plugins: [
     inferAdditionalFields<typeof auth>(),
     twoFactorClient({
-      twoFactorPage: "/two-factor",
+      twoFactorPage: appPath("/two-factor"),
     }),
     organizationClient({
       ac,

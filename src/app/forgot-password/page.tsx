@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 
 import { authClient } from "@/lib/auth-client";
+import { appPath } from "@/lib/app-paths";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ export default function ForgotPasswordPage() {
       const { error } =
         await authClient.requestPasswordReset({
           email: email.trim().toLowerCase(),
-          redirectTo: `${window.location.origin}/reset-password`,
+          redirectTo: `${window.location.origin}${appPath("/reset-password")}`,
         });
 
       if (error) {

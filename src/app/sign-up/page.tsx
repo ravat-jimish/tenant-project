@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import GoogleSignInButton from "@/components/google-sign-in-button";
+import { appPath } from "@/lib/app-paths";
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ export default function SignUpPage() {
         name: name.trim(),
         email: email.trim().toLowerCase(),
         password,
-        callbackURL: "/dashboard",
+        callbackURL: appPath("/dashboard"),
       });
 
       if (error) {

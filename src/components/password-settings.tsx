@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { authClient } from "@/lib/auth-client";
+import { appPath } from "@/lib/app-paths";
 
 interface Props {
   email: string;
@@ -103,7 +104,7 @@ export default function PasswordSettings({ email }: Props) {
     try {
       const { error } = await authClient.requestPasswordReset({
         email,
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: `${window.location.origin}${appPath("/reset-password")}`,
       });
 
       if (error) {

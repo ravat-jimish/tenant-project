@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { appPath } from "@/lib/app-paths";
 
 export default function GoogleAccountSettings() {
   const [connected, setConnected] = useState(false);
@@ -40,7 +41,7 @@ export default function GoogleAccountSettings() {
     try {
       const { error } = await authClient.linkSocial({
         provider: "google",
-        callbackURL: "/dashboard",
+        callbackURL: appPath("/dashboard"),
       });
 
       if (error) {

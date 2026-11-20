@@ -4,6 +4,7 @@
 import { useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { appPath } from "@/lib/app-paths";
 
 interface Props {
   currentEmail: string;
@@ -41,7 +42,7 @@ export default function EmailSettings({
     try {
       const { error } = await authClient.changeEmail({
         newEmail: normalizedEmail,
-        callbackURL: "/settings/email?emailChanged=true",
+        callbackURL: appPath("/settings/email?emailChanged=true"),
       });
 
       if (error) {

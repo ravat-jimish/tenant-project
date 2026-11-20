@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { appPath } from "@/lib/app-paths";
 
 export default function GoogleSignInButton() {
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ export default function GoogleSignInButton() {
     try {
       const { error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/dashboard",
+        callbackURL: appPath("/dashboard"),
       });
 
       if (error) {

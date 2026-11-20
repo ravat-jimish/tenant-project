@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import { authClient } from "@/lib/auth-client";
 import { useProjectPermissions } from "@/hooks/use-project-permissions";
+import { appPath } from "@/lib/app-paths";
 interface Project {
   id: string;
   name: string;
@@ -46,7 +47,7 @@ export default function ProjectManager() {
     setError("");
 
     try {
-      const response = await fetch("/api/projects", {
+      const response = await fetch(appPath("/api/projects"), {
         method: "GET",
         cache: "no-store",
       });
@@ -79,7 +80,7 @@ export default function ProjectManager() {
     setMessage("");
 
     try {
-      const response = await fetch("/api/projects", {
+      const response = await fetch(appPath("/api/projects"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +126,7 @@ export default function ProjectManager() {
 
     try {
       const response = await fetch(
-        `/api/projects/${encodeURIComponent(project.id)}`,
+        appPath(`/api/projects/${encodeURIComponent(project.id)}`),
         {
           method: "PATCH",
           headers: {
@@ -165,7 +166,7 @@ export default function ProjectManager() {
 
     try {
       const response = await fetch(
-        `/api/projects/${encodeURIComponent(project.id)}`,
+        appPath(`/api/projects/${encodeURIComponent(project.id)}`),
         {
           method: "DELETE",
         },
